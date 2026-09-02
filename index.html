@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloudy Tone — Creator · Model · Anchor | Mirzapur</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' fill='%23A98545'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/cormorant-garamond@latest/latin-400-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/cormorant-garamond@latest/latin-500-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/cormorant-garamond@latest/latin-600-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/cormorant-garamond@latest/latin-400-italic.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/cormorant-garamond@latest/latin-500-italic.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/manrope@latest/latin-400-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/manrope@latest/latin-500-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/manrope@latest/latin-600-normal.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/manrope@latest/latin-700-normal.css">
+<style>
+:root{
+  --ivory:#FAF6EE;
+  --cream:#F3ECDF;
+  --sand:#E9DCC5;
+  --taupe:#C9B795;
+  --ink:#2B2115;
+  --ink-soft:#6E5F49;
+  --gold:#A98545;
+  --gold-soft:#C8A96A;
+  --line:rgba(43,33,21,.16);
+  --serif:"Cormorant Garamond",Georgia,serif;
+  --sans:"Manrope",system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:96px}
+body{background:var(--ivory);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.65;overflow-x:hidden}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.05;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E")}
+::selection{background:var(--gold);color:var(--ivory)}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+.serif{font-family:var(--serif)}
+.eyebrow{font-size:.68rem;letter-spacing:.32em;text-transform:uppercase;font-weight:600;color:var(--gold)}
+.wrap{max-width:1280px;margin:0 auto;padding:0 5vw}
+
+/* ---------- header ---------- */
+.site-head{position:fixed;top:0;left:0;right:0;z-index:80;background:rgba(250,246,238,.94);border-bottom:1px solid transparent;transition:border-color .4s}
+.site-head.scrolled{border-color:var(--line)}
+.head-in{max-width:1280px;margin:0 auto;padding:18px 5vw;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.wordmark{font-family:var(--serif);font-size:1.5rem;font-weight:600;letter-spacing:.02em}
+.wordmark em{font-style:italic;color:var(--gold)}
+.wordmark .star{color:var(--gold);font-size:.9em}
+.nav-links{display:flex;gap:30px;align-items:center}
+.nav-links a{font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:var(--ink-soft);position:relative;padding:6px 0}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--gold);transition:width .35s}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{width:100%}
+.head-cta{border:1px solid var(--ink);background:transparent;color:var(--ink);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;font-weight:700;padding:11px 20px;transition:background .3s,color .3s}
+.head-cta:hover{background:var(--ink);color:var(--ivory)}
+.burger{display:none;background:none;border:0;width:34px;height:26px;position:relative;z-index:95}
+.burger span{position:absolute;left:0;width:100%;height:2px;background:var(--ink);transition:transform .35s,opacity .3s,top .3s}
+.burger span:nth-child(1){top:6px}
+.burger span:nth-child(2){top:16px}
+.burger.open span:nth-child(1){top:11px;transform:rotate(45deg)}
+.burger.open span:nth-child(2){top:11px;transform:rotate(-45deg)}
+.mobile-nav{position:fixed;inset:0;background:var(--ivory);z-index:90;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;gap:8px;transform:translateY(-100%);transition:transform .5s cubic-bezier(.7,0,.3,1)}
+.mobile-nav.open{transform:translateY(0)}
+.mobile-nav a{font-family:var(--serif);font-size:2.4rem;font-weight:500;border-bottom:1px solid var(--line);padding:14px 0;display:flex;justify-content:space-between;align-items:center}
+.mobile-nav a small{font-family:var(--sans);font-size:.65rem;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+.progress{position:fixed;top:0;left:0;height:2px;background:var(--gold);width:0;z-index:99}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:170px 5vw 70px;max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.12fr .88fr;gap:60px;align-items:center}
+.hero-kicker{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.hero-kicker .rule{width:52px;height:1px;background:var(--gold)}
+.hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(3.4rem,8.6vw,7.6rem);line-height:.94;letter-spacing:.01em;text-transform:uppercase}
+.hero h1 .outline{color:transparent;-webkit-text-stroke:1.2px var(--ink)}
+.hero h1 .it{font-style:italic;text-transform:none;color:var(--gold);-webkit-text-stroke:0}
+.hero-lead{margin:30px 0 8px;max-width:46ch;color:var(--ink-soft);font-size:1.02rem}
+.hero-lead strong{color:var(--ink)}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px 26px;margin:22px 0 34px;font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.hero-meta .dot{color:var(--gold)}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap}
+.btn{display:inline-block;border:1px solid var(--ink);padding:15px 30px;font-size:.7rem;letter-spacing:.24em;text-transform:uppercase;font-weight:700;transition:background .3s,color .3s,transform .3s;background:transparent}
+.btn:hover{background:var(--ink);color:var(--ivory);transform:translateY(-2px)}
+.btn-gold{background:var(--gold);border-color:var(--gold);color:var(--ivory)}
+.btn-gold:hover{background:var(--ink);border-color:var(--ink)}
+.hero-fig{position:relative;justify-self:end;width:min(430px,100%)}
+.hero-fig::after{content:"";position:absolute;inset:0;border:1px solid var(--gold);transform:translate(16px,16px);z-index:-1}
+.hero-fig img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:saturate(.96)}
+.hero-tag{position:absolute;left:-18px;bottom:34px;background:var(--ink);color:var(--ivory);font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;font-weight:600;padding:10px 16px}
+.hero-tag b{color:var(--gold-soft)}
+.vert{position:absolute;right:14px;top:52%;transform:translateY(-50%);writing-mode:vertical-rl;font-size:.62rem;letter-spacing:.42em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.scroll-hint{position:absolute;left:5vw;bottom:16px;font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft);display:flex;align-items:center;gap:10px}
+.scroll-hint i{display:inline-block;width:1px;height:34px;background:var(--gold);animation:drip 1.8s ease-in-out infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}55%{transform:scaleY(1);transform-origin:top}56%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ---------- marquee ---------- */
+.marquee{border-block:1px solid var(--line);background:var(--cream);overflow:hidden;padding:16px 0}
+.marquee-track{display:flex;gap:0;width:max-content;animation:marq 26s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee-track span{font-family:var(--serif);font-style:italic;font-size:1.25rem;letter-spacing:.06em;padding:0 26px;white-space:nowrap;color:var(--ink)}
+.marquee-track b{color:var(--gold);font-weight:400}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* ---------- sections ---------- */
+.section{padding:110px 0}
+.sec-head{display:flex;align-items:baseline;gap:22px;border-top:1px solid var(--ink);padding-top:20px;margin-bottom:56px;flex-wrap:wrap}
+.sec-no{font-family:var(--serif);font-style:italic;color:var(--gold);font-size:1.1rem}
+.sec-title{font-family:var(--serif);font-weight:500;font-size:clamp(2rem,4vw,3rem);line-height:1.05}
+.sec-note{margin-left:auto;font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+
+/* about */
+.about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px}
+.about-sticky{position:sticky;top:120px;align-self:start}
+.pull-quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.6rem,2.6vw,2.2rem);line-height:1.3;color:var(--ink)}
+.pull-quote b{color:var(--gold);font-weight:500}
+.about-sticky .sig{margin-top:26px;font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.about-body p{color:var(--ink-soft);margin-bottom:20px;max-width:58ch}
+.about-body p strong{color:var(--ink)}
+.facts{margin-top:44px;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.fact{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 24px;transition:background .35s}
+.fact:hover{background:var(--cream)}
+.fact h4{font-size:.64rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px}
+.fact p{font-family:var(--serif);font-size:1.25rem;color:var(--ink);margin:0}
+
+/* services */
+.services{background:var(--cream);border-block:1px solid var(--line)}
+.s-row{display:grid;grid-template-columns:70px 1fr 46px;align-items:baseline;padding:30px 10px;border-top:1px solid var(--line);transition:background .35s;cursor:pointer}
+.s-row:last-of-type{border-bottom:1px solid var(--line)}
+.s-row:hover,.s-row.open{background:var(--ivory)}
+.s-no{font-family:var(--serif);font-style:italic;color:var(--gold);font-size:1.05rem}
+.s-title{font-family:var(--serif);font-weight:500;font-size:clamp(1.4rem,2.6vw,2.1rem);transition:transform .35s}
+.s-row:hover .s-title,.s-row.open .s-title{transform:translateX(12px)}
+.s-arrow{font-family:var(--serif);font-size:1.5rem;justify-self:end;transition:transform .35s;color:var(--ink-soft)}
+.s-row:hover .s-arrow,.s-row.open .s-arrow{transform:rotate(45deg);color:var(--gold)}
+.s-desc{grid-column:2/4;max-height:0;overflow:hidden;opacity:0;transition:max-height .45s ease,opacity .4s;color:var(--ink-soft);max-width:62ch}
+.s-row:hover .s-desc,.s-row.open .s-desc{max-height:120px;opacity:1;padding-top:6px}
+.s-tags{grid-column:2/4;padding-top:12px;display:flex;gap:10px;flex-wrap:wrap;max-height:0;overflow:hidden;opacity:0;transition:max-height .45s,opacity .4s}
+.s-row:hover .s-tags,.s-row.open .s-tags{max-height:60px;opacity:1}
+.s-tags i{font-style:normal;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;border:1px solid var(--taupe);color:var(--ink-soft);padding:5px 12px;font-weight:600}
+
+/* work */
+.work-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px}
+.w7{grid-column:span 7}.w5{grid-column:span 5}.w4{grid-column:span 4}
+.work-item{position:relative;display:block;width:100%;border:0;background:none;padding:0;text-align:left}
+.work-frame{position:relative;overflow:hidden}
+.work-frame img{width:100%;height:100%;object-fit:cover;transform:scale(1.02);transition:transform 1s cubic-bezier(.2,.6,.2,1)}
+.work-item:hover .work-frame img{transform:scale(1.08)}
+.work-idx{position:absolute;top:14px;left:14px;background:var(--ivory);color:var(--ink);font-family:var(--serif);font-style:italic;font-size:.85rem;padding:5px 12px;z-index:2}
+.ar45{aspect-ratio:4/5}.ar34{aspect-ratio:3/4}.ar11{aspect-ratio:1/1}.ar1610{aspect-ratio:16/10}
+.w-cap{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding-top:12px}
+.w-cap h3{font-family:var(--serif);font-style:italic;font-weight:500;font-size:1.2rem}
+.w-cap span{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:700;white-space:nowrap}
+
+/* lightbox */
+.lb{position:fixed;inset:0;background:rgba(30,23,13,.92);z-index:120;display:none;align-items:center;justify-content:center;flex-direction:column;padding:5vh 5vw}
+.lb.open{display:flex}
+.lb img{max-height:74vh;max-width:min(880px,92vw);object-fit:contain;border:1px solid rgba(250,246,238,.25)}
+.lb-cap{color:var(--ivory);margin-top:18px;font-family:var(--serif);font-style:italic;font-size:1.15rem;text-align:center}
+.lb-count{color:var(--gold-soft);font-size:.66rem;letter-spacing:.3em;margin-top:6px;text-transform:uppercase}
+.lb-btn{position:absolute;background:none;border:1px solid rgba(250,246,238,.4);color:var(--ivory);width:48px;height:48px;font-size:1.3rem;font-family:var(--serif);transition:background .3s}
+.lb-btn:hover{background:var(--gold);border-color:var(--gold)}
+.lb-close{top:26px;right:26px}
+.lb-prev{left:26px;top:50%;transform:translateY(-50%)}
+.lb-next{right:26px;top:50%;transform:translateY(-50%)}
+
+/* collabs */
+.collab-list{border-top:1px solid var(--ink)}
+.c-row{display:grid;grid-template-columns:56px 1.1fr 1fr auto;gap:20px;align-items:center;padding:26px 10px;border-bottom:1px solid var(--line);transition:background .35s}
+.c-row:hover{background:var(--cream)}
+.c-no{font-family:var(--serif);font-style:italic;color:var(--gold)}
+.c-name{font-family:var(--serif);font-weight:500;font-size:1.45rem}
+.c-name small{display:block;font-family:var(--sans);font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-top:4px}
+.c-desc{color:var(--ink-soft);font-size:.9rem}
+.c-tag{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;font-weight:700;border:1px solid var(--gold);color:var(--gold);padding:6px 14px;white-space:nowrap}
+
+/* stats */
+.stats{background:var(--ink);color:var(--ivory);padding:80px 0}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:34px}
+.stat{border-left:1px solid rgba(250,246,238,.25);padding-left:28px}
+.stat-num{font-family:var(--serif);font-size:clamp(2.6rem,4.6vw,4rem);line-height:1;color:var(--gold-soft)}
+.stat-label{margin-top:10px;font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(250,246,238,.7);font-weight:600}
+
+/* recent */
+.t-row{display:grid;grid-template-columns:130px 1fr auto;gap:24px;align-items:baseline;padding:24px 10px;border-top:1px solid var(--line);transition:background .3s,padding-left .3s}
+.t-row:last-of-type{border-bottom:1px solid var(--line)}
+.t-row:hover{background:var(--cream);padding-left:22px}
+.t-date{font-family:var(--serif);font-style:italic;color:var(--gold);font-size:1.05rem}
+.t-title{font-family:var(--serif);font-weight:500;font-size:1.35rem}
+.t-note{font-size:.64rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+
+/* contact */
+.contact{background:var(--cream);border-top:1px solid var(--line);text-align:left}
+.contact-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:60px;align-items:center}
+.contact h2{font-family:var(--serif);font-weight:500;font-size:clamp(2.4rem,5.4vw,4.6rem);line-height:1.05}
+.contact h2 em{color:var(--gold)}
+.contact p{margin-top:22px;color:var(--ink-soft);max-width:48ch}
+.contact-card{border:1px solid var(--ink);background:var(--ivory);padding:38px}
+.contact-card h3{font-family:var(--serif);font-size:1.6rem;font-weight:500;margin-bottom:6px}
+.contact-card .handle{font-family:var(--serif);font-style:italic;color:var(--gold);font-size:1.2rem;display:block;margin-bottom:20px}
+.contact-card ul{list-style:none;margin:0 0 26px;border-top:1px solid var(--line)}
+.contact-card li{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:var(--ink-soft)}
+.contact-card li b{color:var(--ink)}
+
+/* footer */
+footer{padding:40px 0 46px}
+.foot-in{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.foot-in p{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.to-top{width:52px;height:52px;border:1px solid var(--ink);background:none;font-family:var(--serif);font-size:1.2rem;transition:background .3s,color .3s,transform .3s}
+.to-top:hover{background:var(--gold);border-color:var(--gold);color:var(--ivory);transform:translateY(-4px)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.6,.2,1);transition-delay:var(--d,0s)}
+.reveal.in{opacity:1;transform:none}
+
+@media(max-width:1024px){
+  .hero{grid-template-columns:1fr;gap:56px;padding-top:140px}
+  .hero-fig{justify-self:start}
+  .vert{display:none}
+  .about-grid{grid-template-columns:1fr;gap:44px}
+  .about-sticky{position:static}
+  .stats-grid{grid-template-columns:1fr 1fr;gap:44px 26px}
+  .contact-grid{grid-template-columns:1fr;gap:44px}
+  .w7,.w5{grid-column:span 6}.w4{grid-column:span 6}
+}
+@media(max-width:768px){
+  .nav-links,.head-cta{display:none}
+  .burger{display:block}
+  .c-row{grid-template-columns:40px 1fr;gap:8px 16px}
+  .c-desc{grid-column:2}
+  .c-tag{grid-column:2;justify-self:start}
+  .t-row{grid-template-columns:1fr;gap:6px}
+  .sec-note{margin-left:0;width:100%}
+}
+@media(max-width:560px){
+  .w7,.w5,.w4{grid-column:span 12}
+  .stats-grid{grid-template-columns:1fr}
+  .facts{grid-template-columns:1fr}
+  .hero-tag{left:0}
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="ctProgress"></div>
+
+<header class="site-head" id="ctHead">
+  <div class="head-in">
+    <a class="wordmark" href="#top">Cloudy <em>Tone</em> <span class="star">✦</span></a>
+    <nav class="nav-links">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#collabs">Collaborations</a>
+      <a href="#recent">Recent</a>
+    </nav>
+    <a class="head-cta" href="#contact">Book a Collab</a>
+    <button class="burger" id="ctBurger" aria-label="Menu"><span></span><span></span></button>
+  </div>
+</header>
+
+<nav class="mobile-nav" id="ctMobileNav">
+  <a href="#about"><span>About</span><small>01</small></a>
+  <a href="#services"><span>Services</span><small>02</small></a>
+  <a href="#work"><span>Work</span><small>03</small></a>
+  <a href="#collabs"><span>Collaborations</span><small>04</small></a>
+  <a href="#recent"><span>Recent</span><small>05</small></a>
+  <a href="#contact"><span>Let's Create</span><small>06</small></a>
+</nav>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <div class="hero-kicker reveal"><span class="rule"></span><span class="eyebrow">Creator · Model · Anchor — Mirzapur, UP</span></div>
+      <h1 class="reveal" style="--d:.08s">Cloudy<br><span class="outline">Tone</span> <span class="it">— creating</span><br><span class="it">memories,</span> not<br>just content.</h1>
+      <p class="hero-lead reveal" style="--d:.16s">The face behind <strong>@cloudy2208</strong> — turning Mirzapur's boutiques, salons and festive moments into reels people actually remember. <strong>Open for collaborations.</strong></p>
+      <div class="hero-meta reveal" style="--d:.22s">
+        <span>Est. 2021</span><span class="dot">✦</span><span>2.4K+ Followers</span><span class="dot">✦</span><span>123 Posts</span><span class="dot">✦</span><span>@cloudy2208</span>
+      </div>
+      <div class="hero-actions reveal" style="--d:.28s">
+        <a class="btn btn-gold" href="#work">View Selected Work</a>
+        <a class="btn" href="https://www.instagram.com/cloudy2208/" target="_blank" rel="noopener">Follow on Instagram</a>
+      </div>
+    </div>
+    <figure class="hero-fig reveal" style="--d:.15s" id="ctHeroFig">
+      <img src="https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/170506cf4-2d0d-4e97-a6f1-14e0af52c26b.png" alt="Cloudy Tone — signature editorial portrait in cream silk">
+      <figcaption class="hero-tag"><b>✦</b> @cloudy2208 — Mirzapur</figcaption>
+    </figure>
+    <span class="vert">Portfolio — Mirzapur · Uttar Pradesh — Est. 2021</span>
+    <span class="scroll-hint"><i></i> Scroll</span>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track" id="ctMarquee">
+      <span>Reels <b>✦</b></span><span>Photos <b>✦</b></span><span>Lifestyle <b>✦</b></span><span>Business Promos <b>✦</b></span><span>Runway <b>✦</b></span><span>Event Anchoring <b>✦</b></span><span>Ethnic Fashion <b>✦</b></span><span>Mirzapur <b>✦</b></span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="wrap">
+      <div class="sec-head reveal"><span class="sec-no">01</span><h2 class="sec-title">About Cloudy</h2><span class="sec-note">The girl behind the lens & the mic</span></div>
+      <div class="about-grid">
+        <div class="about-sticky reveal">
+          <p class="pull-quote">"I'm an original and that's perfection in itself — <b>you can't dull my sparkle.</b> ✨"</p>
+          <p class="sig">— Cloudy Tone, July 2022</p>
+        </div>
+        <div class="about-body">
+          <p class="reveal">Cloudy Tone is a Mirzapur-based content creator, runway model and event anchor who has been <strong>creating memories since 2021</strong> — blending high-fashion polish with the warmth of a hometown storyteller.</p>
+          <p class="reveal" style="--d:.08s">From walking the <strong>Lucknow India International Couture Week</strong> to hosting local launches and shooting festive drops for Mirzapur's boutiques and salons, she moves effortlessly between the ramp, the reel and the stage.</p>
+          <p class="reveal" style="--d:.14s">Her content lives where elegance meets everyday life — ethnic fashion, soft-glam beauty, festive nights and honest, no-filter moments — told in a voice her city recognises and trusts.</p>
+          <div class="facts reveal" style="--d:.18s">
+            <div class="fact"><h4>Based In</h4><p>Mirzapur, Uttar Pradesh</p></div>
+            <div class="fact"><h4>Creating Since</h4><p>March 2021</p></div>
+            <div class="fact"><h4>Craft</h4><p>Reels · Photos · Lifestyle</p></div>
+            <div class="fact"><h4>Also Known As</h4><p>Runway Model & Anchor</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section services" id="services">
+    <div class="wrap">
+      <div class="sec-head reveal"><span class="sec-no">02</span><h2 class="sec-title">What I Do</h2><span class="sec-note">Tap a row to explore</span></div>
+      <div class="s-row reveal"><span class="s-no">i.</span><span class="s-title">Business Promo Reels</span><span class="s-arrow">→</span>
+        <p class="s-desc">Cinematic, story-first reels for shops, boutiques, salons and cafés — made to turn local footfall into loyal followers.</p>
+        <div class="s-tags"><i>Reels</i><i>Store Visits</i><i>Launch Drops</i></div>
+      </div>
+      <div class="s-row reveal" style="--d:.05s"><span class="s-no">ii.</span><span class="s-title">Fashion & Ethnic Campaigns</span><span class="s-arrow">→</span>
+        <p class="s-desc">Lookbooks and festive collection campaigns — bridal lehengas, sarees and suits styled with real editorial taste.</p>
+        <div class="s-tags"><i>Lookbooks</i><i>Festive Drops</i><i>Bridal</i></div>
+      </div>
+      <div class="s-row reveal" style="--d:.1s"><span class="s-no">iii.</span><span class="s-title">Event Anchoring</span><span class="s-arrow">→</span>
+        <p class="s-desc">Hosting launches, festive evenings and stage events with warmth and poise — honoured on stage by chief guests.</p>
+        <div class="s-tags"><i>Hosting</i><i>Promotions</i><i>Stage</i></div>
+      </div>
+      <div class="s-row reveal" style="--d:.15s"><span class="s-no">iv.</span><span class="s-title">Runway & Editorial Shoots</span><span class="s-arrow">→</span>
+        <p class="s-desc">Couture walks and print-grade editorial shoots — from Lucknow couture week to local designer campaigns.</p>
+        <div class="s-tags"><i>Runway</i><i>Print</i><i>Couture</i></div>
+      </div>
+      <div class="s-row reveal" style="--d:.2s"><span class="s-no">v.</span><span class="s-title">Lifestyle Storytelling</span><span class="s-arrow">→</span>
+        <p class="s-desc">Everyday elegance in a Hinglish voice — raw portraits, festive diaries and moments that feel like memories, not ads.</p>
+        <div class="s-tags"><i>Lifestyle</i><i>Beauty</i><i>Festive</i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="section" id="work">
+    <div class="wrap">
+      <div class="sec-head reveal"><span class="sec-no">03</span><h2 class="sec-title">Selected Work</h2><span class="sec-note">Click any frame to view</span></div>
+      <div class="work-grid">
+        <button class="work-item w7 reveal" data-cap="Vivah Collection — Festive Bridal Drop · Ethnic Campaign, Mirzapur">
+          <span class="work-frame ar1610"><img src="https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/108afd7f2-af12-414a-bc52-b69a2aa5a319.png" alt="Bridal lehenga campaign for Vivah Collection"><span class="work-idx">No. 01</span></span>
+          <span class="w-cap"><h3>Vivah Collection — Bridal Drop</h3><span>Ethnic Campaign</span></span>
+        </button>
+        <button class="work-item w5 reveal" style="--d:.08s" data-cap="Lucknow India International Couture Week · Runway for Designer Yash Singh">
+          <span class="work-frame ar45"><img src="https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/1b8f1a415-033f-4b9a-895f-f113c9e11653.png" alt="Runway walk at Lucknow India International Couture Week"><span class="work-idx">No. 02</span></span>
+          <span class="w-cap"><h3>Couture Week Runway</h3><span>Runway</span></span>
+        </button>
+        <button class="work-item w4 reveal" data-cap="Soft Glam Beauty Edit · MUA collaboration, Mirzapur">
+          <span class="work-frame ar34"><img src="https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/1af862f93-b338-4e1d-bcbf-9efb31606b6e.png" alt="Soft glam beauty editorial close-up"><span class="work-idx">No. 03</span></span>
+          <span class="w-cap"><h3>Soft Glam Beauty Edit</h3><span>Beauty</span></span>
+        </button>
+        <button class="work-item w4 reveal" style="--d:.08s" data-cap="Her Majesty's Studio — Luxury Hair Spa Ritual · Salon promo reel">
+          <span class="work-frame ar34"><img src="https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/14cd24380-cee3-4273-b95b-e637d5e1bb07.png" alt="Luxury hair spa promo for Her Majesty's Studio"><span class="work-idx">No. 04</span></span>
+          <span class="w-cap"><h3>Her Majesty's Studio</h3><span>Salon Promo</span></span>
+        </button>
+        <button class="work-item w4 reveal" style="--d:.16s" data-cap="Pastel Saree Diaries · Lifestyle editorial, natural light">
+          <span class="work-frame ar34"><img src="https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/17a8638f2-9929-4ebe-8d8a-6123d95dd334.png" alt="Pastel saree lifestyle editorial portrait"><span class="work-idx">No. 05</span></span>
+          <span class="w-cap"><h3>Pastel Saree Diaries</h3><span>Lifestyle</span></span>
+        </button>
+        <button class="work-item w5 reveal" data-cap="On the Mic — Event anchoring & promotion, honoured by chief guest">
+          <span class="work-frame ar45"><img src="https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/104f278c7-c80d-41e2-8277-dab30d6ffc47.png" alt="Cloudy Tone anchoring an event with a microphone"><span class="work-idx">No. 06</span></span>
+          <span class="w-cap"><h3>On the Mic — Anchoring</h3><span>Events</span></span>
+        </button>
+        <button class="work-item w7 reveal" style="--d:.08s" data-cap="Dandiya Nights — Festive campaign · #FestiveFashion, Mirzapur">
+          <span class="work-frame ar1610"><img src="https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/1077b8cfd-a58c-4806-bc77-0a149da70655.png" alt="Festive dandiya night campaign shoot"><span class="work-idx">No. 07</span></span>
+          <span class="w-cap"><h3>Dandiya Nights</h3><span>Festive</span></span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLLABS -->
+  <section class="section" id="collabs" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head reveal"><span class="sec-no">04</span><h2 class="sec-title">Collaborations</h2><span class="sec-note">Brands, designers & artists</span></div>
+      <div class="collab-list">
+        <div class="c-row reveal"><span class="c-no">01</span><div class="c-name">Vivah Collection<small>Sunderghat, Mirzapur</small></div><p class="c-desc">Face of festive & bridal drops — reels, lookbooks and store campaigns for premium lehengas, sarees & suits.</p><span class="c-tag">Boutique · 2022–24</span></div>
+        <div class="c-row reveal" style="--d:.05s"><span class="c-no">02</span><div class="c-name">Her Majesty's Studio<small>Mirzapur</small></div><p class="c-desc">Luxury hair-spa ritual promo — soft, serene salon storytelling.</p><span class="c-tag">Salon · 2026</span></div>
+        <div class="c-row reveal" style="--d:.1s"><span class="c-no">03</span><div class="c-name">Yash Singh Couture<small>Lucknow India International Couture Week</small></div><p class="c-desc">Runway model for couture shows — managed by @sunainasingh0119.</p><span class="c-tag">Runway · 2023–25</span></div>
+        <div class="c-row reveal" style="--d:.15s"><span class="c-no">04</span><div class="c-name">Shumayla h Salim<small>Makeup Artist</small></div><p class="c-desc">Beauty campaign shoots and soft-glam editorial frames.</p><span class="c-tag">MUA · 2024</span></div>
+        <div class="c-row reveal" style="--d:.2s"><span class="c-no">05</span><div class="c-name">Glam by Shivi<small>Kolka Artist</small></div><p class="c-desc">Festive looks, dandiya edits and stage appearances — AISW events.</p><span class="c-tag">Festive · 2024–25</span></div>
+        <div class="c-row reveal" style="--d:.25s"><span class="c-no">06</span><div class="c-name">@sync_with__asthaa_<small>Creator Duo</small></div><p class="c-desc">Joint reels and stories — "watch out me" — the duo behind the scenes.</p><span class="c-tag">Ongoing</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="wrap stats-grid">
+      <div class="stat reveal"><div class="stat-num"><span class="ct-count" data-count="2.4" data-dec="1">0</span>K+</div><div class="stat-label">Instagram Followers</div></div>
+      <div class="stat reveal" style="--d:.08s"><div class="stat-num"><span class="ct-count" data-count="123">0</span></div><div class="stat-label">Posts & Counting</div></div>
+      <div class="stat reveal" style="--d:.16s"><div class="stat-num"><span class="ct-count" data-count="12">0</span>%</div><div class="stat-label">Peak Like-to-Follower Ratio</div></div>
+      <div class="stat reveal" style="--d:.24s"><div class="stat-num"><span class="ct-count" data-count="5">0</span>+</div><div class="stat-label">Years Creating Since 2021</div></div>
+    </div>
+  </section>
+
+  <!-- RECENT -->
+  <section class="section" id="recent">
+    <div class="wrap">
+      <div class="sec-head reveal"><span class="sec-no">05</span><h2 class="sec-title">Recent Moments</h2><span class="sec-note">Fresh from the feed</span></div>
+      <div class="t-row reveal"><span class="t-date">Jun '26</span><span class="t-title">"Yeahh yeahh.!!" — trending reel drop, #cloudyworld ☁️</span><span class="t-note">Reel</span></div>
+      <div class="t-row reveal" style="--d:.05s"><span class="t-date">Apr '26</span><span class="t-title">"Haaye chaak chaak.." — photo series, viral edit</span><span class="t-note">Photos</span></div>
+      <div class="t-row reveal" style="--d:.1s"><span class="t-date">Oct '25</span><span class="t-title">Diwali 2K25 — "Bright, joyful and full of love"</span><span class="t-note">Festive</span></div>
+      <div class="t-row reveal" style="--d:.15s"><span class="t-date">Sep '25</span><span class="t-title">Dandiya Queen look — festive campaign with Glam by Shivi</span><span class="t-note">Campaign</span></div>
+      <div class="t-row reveal" style="--d:.2s"><span class="t-date">Oct '24</span><span class="t-title">Honoured by chief guest — promotion & anchoring milestone</span><span class="t-note">Event</span></div>
+      <div class="t-row reveal" style="--d:.25s"><span class="t-date">Jul '24</span><span class="t-title">"Dance the night away" — Vivah Collection festive drop</span><span class="t-note">Promo</span></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section contact" id="contact">
+    <div class="wrap contact-grid">
+      <div class="reveal">
+        <span class="eyebrow">06 — Let's Create</span>
+        <h2 style="margin-top:18px">Let's make your shop the <em>next story</em> Mirzapur remembers.</h2>
+        <p>Boutique openings, salon rituals, festive drops, launches and stage nights — Cloudy turns local businesses into content people save, share and walk in for. Open for collaborations.</p>
+      </div>
+      <div class="contact-card reveal" style="--d:.1s">
+        <h3>Book Cloudy Tone</h3>
+        <span class="handle">@cloudy2208 ✦</span>
+        <ul>
+          <li><span>Reels & Promos</span><b>DM to book</b></li>
+          <li><span>Campaigns & Shoots</span><b>DM to book</b></li>
+          <li><span>Anchoring & Events</span><b>DM to book</b></li>
+        </ul>
+        <a class="btn btn-gold" style="width:100%;text-align:center" href="https://www.instagram.com/cloudy2208/" target="_blank" rel="noopener">DM on Instagram</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <p>© 2026 Cloudy Tone ✦ Mirzapur, Uttar Pradesh</p>
+    <p>Creating memories, not just content ✨</p>
+    <button class="to-top" id="ctToTop" aria-label="Back to top">↑</button>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="ctLb" role="dialog" aria-modal="true">
+  <button class="lb-btn lb-close" id="ctLbClose" aria-label="Close">×</button>
+  <button class="lb-btn lb-prev" id="ctLbPrev" aria-label="Previous">‹</button>
+  <button class="lb-btn lb-next" id="ctLbNext" aria-label="Next">›</button>
+  <img id="ctLbImg" src="" alt="Selected work enlarged view">
+  <p class="lb-cap" id="ctLbCap"></p>
+  <span class="lb-count" id="ctLbCount"></span>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var headEl=document.getElementById('ctHead');
+  var progEl=document.getElementById('ctProgress');
+  var heroFig=document.getElementById('ctHeroFig');
+  var finePointer=window.matchMedia('(pointer:fine)').matches;
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  /* header + progress + parallax */
+  function onScroll(){
+    var y=window.scrollY||0;
+    headEl.classList.toggle('scrolled',y>10);
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    progEl.style.width=(h>0?(y/h)*100:0)+'%';
+    if(finePointer&&!reducedMotion&&heroFig&&y<window.innerHeight*1.4){
+      heroFig.style.transform='translateY('+(y*0.06)+'px)';
+    }
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+
+  /* mobile nav */
+  var burger=document.getElementById('ctBurger');
+  var mnav=document.getElementById('ctMobileNav');
+  burger.addEventListener('click',function(){
+    var open=mnav.classList.toggle('open');
+    burger.classList.toggle('open',open);
+    document.body.style.overflow=open?'hidden':'';
+  });
+  mnav.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){
+      mnav.classList.remove('open');burger.classList.remove('open');document.body.style.overflow='';
+    });
+  });
+
+  /* marquee duplicate for seamless loop */
+  var mq=document.getElementById('ctMarquee');
+  mq.innerHTML+=mq.innerHTML;
+
+  /* reveal on scroll */
+  var revealEls=document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window&&!reducedMotion){
+    var ro=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){en.target.classList.add('in');ro.unobserve(en.target);}
+      });
+    },{threshold:0.12});
+    revealEls.forEach(function(el){ro.observe(el);});
+  }else{
+    revealEls.forEach(function(el){el.classList.add('in');});
+  }
+
+  /* counters */
+  var counters=document.querySelectorAll('.ct-count');
+  function runCounter(el){
+    var target=parseFloat(el.getAttribute('data-count'));
+    var dec=parseInt(el.getAttribute('data-dec')||'0',10);
+    var dur=1600;var t0=null;
+    function step(ts){
+      if(!t0)t0=ts;
+      var p=Math.min((ts-t0)/dur,1);
+      var ease=1-Math.pow(1-p,3);
+      el.textContent=(target*ease).toFixed(dec);
+      if(p<1)requestAnimationFrame(step);
+      else el.textContent=target.toFixed(dec);
+    }
+    requestAnimationFrame(step);
+  }
+  if('IntersectionObserver' in window&&!reducedMotion){
+    var co=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){runCounter(en.target);co.unobserve(en.target);}
+      });
+    },{threshold:0.5});
+    counters.forEach(function(c){co.observe(c);});
+  }else{
+    counters.forEach(function(c){c.textContent=c.getAttribute('data-count');});
+  }
+
+  /* services rows (touch toggle) */
+  document.querySelectorAll('.s-row').forEach(function(row){
+    row.addEventListener('click',function(){
+      var wasOpen=row.classList.contains('open');
+      document.querySelectorAll('.s-row.open').forEach(function(r){r.classList.remove('open');});
+      if(!wasOpen)row.classList.add('open');
+    });
+  });
+
+  /* lightbox */
+  var items=Array.prototype.slice.call(document.querySelectorAll('.work-item'));
+  var lb=document.getElementById('ctLb');
+  var lbImg=document.getElementById('ctLbImg');
+  var lbCap=document.getElementById('ctLbCap');
+  var lbCount=document.getElementById('ctLbCount');
+  var lbIndex=0;
+  function showLb(i){
+    lbIndex=(i+items.length)%items.length;
+    var img=items[lbIndex].querySelector('img');
+    lbImg.src=img.src;
+    lbImg.alt=img.alt;
+    lbCap.textContent=items[lbIndex].getAttribute('data-cap');
+    lbCount.textContent=(lbIndex+1)+' / '+items.length;
+  }
+  function openLb(i){showLb(i);lb.classList.add('open');document.body.style.overflow='hidden';}
+  function closeLb(){lb.classList.remove('open');document.body.style.overflow='';}
+  items.forEach(function(it,i){it.addEventListener('click',function(){openLb(i);});});
+  document.getElementById('ctLbClose').addEventListener('click',closeLb);
+  document.getElementById('ctLbPrev').addEventListener('click',function(e){e.stopPropagation();showLb(lbIndex-1);});
+  document.getElementById('ctLbNext').addEventListener('click',function(e){e.stopPropagation();showLb(lbIndex+1);});
+  lb.addEventListener('click',function(e){if(e.target===lb)closeLb();});
+  document.addEventListener('keydown',function(e){
+    if(!lb.classList.contains('open'))return;
+    if(e.key==='Escape')closeLb();
+    if(e.key==='ArrowLeft')showLb(lbIndex-1);
+    if(e.key==='ArrowRight')showLb(lbIndex+1);
+  });
+
+  /* back to top */
+  document.getElementById('ctToTop').addEventListener('click',function(){
+    window.scrollTo({top:0,behavior:reducedMotion?'auto':'smooth'});
+  });
+})();
+</script>
+</body>
+</html>
