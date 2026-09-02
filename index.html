@@ -16,14 +16,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/fontsource/fonts/manrope@latest/latin-700-normal.css">
 <style>
 :root{
-  --ivory:#FAF6EE;
-  --cream:#F3ECDF;
-  --sand:#E9DCC5;
-  --taupe:#C9B795;
-  --ink:#2B2115;
-  --ink-soft:#6E5F49;
-  --gold:#A98545;
-  --gold-soft:#C8A96A;
+  --ivory:#FAF6EE; --cream:#F3ECDF; --sand:#E9DCC5; --taupe:#C9B795;
+  --ink:#2B2115; --ink-soft:#6E5F49; --gold:#A98545; --gold-soft:#C8A96A;
   --line:rgba(43,33,21,.16);
   --serif:"Cormorant Garamond",Georgia,serif;
   --sans:"Manrope",system-ui,sans-serif;
@@ -40,11 +34,21 @@ button{font-family:inherit;cursor:pointer}
 .eyebrow{font-size:.68rem;letter-spacing:.32em;text-transform:uppercase;font-weight:600;color:var(--gold)}
 .wrap{max-width:1280px;margin:0 auto;padding:0 5vw}
 
+/* ---------- photo slots & badges ---------- */
+.photo-slot{position:relative}
+.slot-badge{position:absolute;left:10px;bottom:10px;background:var(--ivory);border:1px solid var(--gold);color:var(--ink);font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;padding:5px 9px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:4;max-width:calc(100% - 20px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.photo-slot.using-fallback .slot-badge{opacity:1}
+body.editing .photo-slot .slot-badge{opacity:1}
+body.editing .photo-slot{cursor:pointer}
+body.editing .photo-slot img{outline:2px dashed var(--gold);outline-offset:3px;transition:opacity .25s}
+body.editing .photo-slot:hover img{opacity:.82}
+.hero-fig .slot-badge{left:auto;right:12px;top:12px;bottom:auto}
+
 /* ---------- header ---------- */
 .site-head{position:fixed;top:0;left:0;right:0;z-index:80;background:rgba(250,246,238,.94);border-bottom:1px solid transparent;transition:border-color .4s}
 .site-head.scrolled{border-color:var(--line)}
 .head-in{max-width:1280px;margin:0 auto;padding:18px 5vw;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.wordmark{font-family:var(--serif);font-size:1.5rem;font-weight:600;letter-spacing:.02em}
+.wordmark{font-family:var(--serif);font-size:1.5rem;font-weight:600}
 .wordmark em{font-style:italic;color:var(--gold)}
 .wordmark .star{color:var(--gold);font-size:.9em}
 .nav-links{display:flex;gap:30px;align-items:center}
@@ -55,9 +59,8 @@ button{font-family:inherit;cursor:pointer}
 .head-cta{border:1px solid var(--ink);background:transparent;color:var(--ink);font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;font-weight:700;padding:11px 20px;transition:background .3s,color .3s}
 .head-cta:hover{background:var(--ink);color:var(--ivory)}
 .burger{display:none;background:none;border:0;width:34px;height:26px;position:relative;z-index:95}
-.burger span{position:absolute;left:0;width:100%;height:2px;background:var(--ink);transition:transform .35s,opacity .3s,top .3s}
-.burger span:nth-child(1){top:6px}
-.burger span:nth-child(2){top:16px}
+.burger span{position:absolute;left:0;width:100%;height:2px;background:var(--ink);transition:transform .35s,top .3s}
+.burger span:nth-child(1){top:6px}.burger span:nth-child(2){top:16px}
 .burger.open span:nth-child(1){top:11px;transform:rotate(45deg)}
 .burger.open span:nth-child(2){top:11px;transform:rotate(-45deg)}
 .mobile-nav{position:fixed;inset:0;background:var(--ivory);z-index:90;display:flex;flex-direction:column;justify-content:center;padding:0 8vw;gap:8px;transform:translateY(-100%);transition:transform .5s cubic-bezier(.7,0,.3,1)}
@@ -82,10 +85,10 @@ button{font-family:inherit;cursor:pointer}
 .btn:hover{background:var(--ink);color:var(--ivory);transform:translateY(-2px)}
 .btn-gold{background:var(--gold);border-color:var(--gold);color:var(--ivory)}
 .btn-gold:hover{background:var(--ink);border-color:var(--ink)}
-.hero-fig{position:relative;justify-self:end;width:min(430px,100%)}
+.hero-fig{justify-self:end;width:min(430px,100%)}
 .hero-fig::after{content:"";position:absolute;inset:0;border:1px solid var(--gold);transform:translate(16px,16px);z-index:-1}
 .hero-fig img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:saturate(.96)}
-.hero-tag{position:absolute;left:-18px;bottom:34px;background:var(--ink);color:var(--ivory);font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;font-weight:600;padding:10px 16px}
+.hero-tag{position:absolute;left:-18px;bottom:34px;background:var(--ink);color:var(--ivory);font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;font-weight:600;padding:10px 16px;z-index:5}
 .hero-tag b{color:var(--gold-soft)}
 .vert{position:absolute;right:14px;top:52%;transform:translateY(-50%);writing-mode:vertical-rl;font-size:.62rem;letter-spacing:.42em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
 .scroll-hint{position:absolute;left:5vw;bottom:16px;font-size:.62rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft);display:flex;align-items:center;gap:10px}
@@ -94,9 +97,9 @@ button{font-family:inherit;cursor:pointer}
 
 /* ---------- marquee ---------- */
 .marquee{border-block:1px solid var(--line);background:var(--cream);overflow:hidden;padding:16px 0}
-.marquee-track{display:flex;gap:0;width:max-content;animation:marq 26s linear infinite}
+.marquee-track{display:flex;width:max-content;animation:marq 26s linear infinite}
 .marquee:hover .marquee-track{animation-play-state:paused}
-.marquee-track span{font-family:var(--serif);font-style:italic;font-size:1.25rem;letter-spacing:.06em;padding:0 26px;white-space:nowrap;color:var(--ink)}
+.marquee-track span{font-family:var(--serif);font-style:italic;font-size:1.25rem;letter-spacing:.06em;padding:0 26px;white-space:nowrap}
 .marquee-track b{color:var(--gold);font-weight:400}
 @keyframes marq{to{transform:translateX(-50%)}}
 
@@ -110,16 +113,19 @@ button{font-family:inherit;cursor:pointer}
 /* about */
 .about-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px}
 .about-sticky{position:sticky;top:120px;align-self:start}
-.pull-quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.6rem,2.6vw,2.2rem);line-height:1.3;color:var(--ink)}
+.pull-quote{font-family:var(--serif);font-style:italic;font-size:clamp(1.6rem,2.6vw,2.2rem);line-height:1.3}
 .pull-quote b{color:var(--gold);font-weight:500}
-.about-sticky .sig{margin-top:26px;font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.about-sticky .sig{margin-top:22px;font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.about-fig{margin-top:40px;width:min(300px,86%)}
+.about-fig::after{content:"";position:absolute;inset:0;border:1px solid var(--gold);transform:translate(12px,12px);z-index:-1}
+.about-fig img{width:100%;aspect-ratio:3/4;object-fit:cover}
 .about-body p{color:var(--ink-soft);margin-bottom:20px;max-width:58ch}
 .about-body p strong{color:var(--ink)}
 .facts{margin-top:44px;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);border-left:1px solid var(--line)}
 .fact{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 24px;transition:background .35s}
 .fact:hover{background:var(--cream)}
 .fact h4{font-size:.64rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px}
-.fact p{font-family:var(--serif);font-size:1.25rem;color:var(--ink);margin:0}
+.fact p{font-family:var(--serif);font-size:1.25rem;margin:0}
 
 /* services */
 .services{background:var(--cream);border-block:1px solid var(--line)}
@@ -141,11 +147,11 @@ button{font-family:inherit;cursor:pointer}
 .work-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px}
 .w7{grid-column:span 7}.w5{grid-column:span 5}.w4{grid-column:span 4}
 .work-item{position:relative;display:block;width:100%;border:0;background:none;padding:0;text-align:left}
-.work-frame{position:relative;overflow:hidden}
+.work-frame{overflow:hidden}
 .work-frame img{width:100%;height:100%;object-fit:cover;transform:scale(1.02);transition:transform 1s cubic-bezier(.2,.6,.2,1)}
 .work-item:hover .work-frame img{transform:scale(1.08)}
-.work-idx{position:absolute;top:14px;left:14px;background:var(--ivory);color:var(--ink);font-family:var(--serif);font-style:italic;font-size:.85rem;padding:5px 12px;z-index:2}
-.ar45{aspect-ratio:4/5}.ar34{aspect-ratio:3/4}.ar11{aspect-ratio:1/1}.ar1610{aspect-ratio:16/10}
+.work-idx{position:absolute;top:14px;left:14px;background:var(--ivory);font-family:var(--serif);font-style:italic;font-size:.85rem;padding:5px 12px;z-index:3}
+.ar45{aspect-ratio:4/5}.ar34{aspect-ratio:3/4}.ar1610{aspect-ratio:16/10}
 .w-cap{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding-top:12px}
 .w-cap h3{font-family:var(--serif);font-style:italic;font-weight:500;font-size:1.2rem}
 .w-cap span{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:700;white-space:nowrap}
@@ -180,15 +186,17 @@ button{font-family:inherit;cursor:pointer}
 .stat-label{margin-top:10px;font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(250,246,238,.7);font-weight:600}
 
 /* recent */
-.t-row{display:grid;grid-template-columns:130px 1fr auto;gap:24px;align-items:baseline;padding:24px 10px;border-top:1px solid var(--line);transition:background .3s,padding-left .3s}
+.t-row{display:grid;grid-template-columns:110px 64px 1fr auto;gap:24px;align-items:center;padding:20px 10px;border-top:1px solid var(--line);transition:background .3s,padding-left .3s}
 .t-row:last-of-type{border-bottom:1px solid var(--line)}
 .t-row:hover{background:var(--cream);padding-left:22px}
 .t-date{font-family:var(--serif);font-style:italic;color:var(--gold);font-size:1.05rem}
-.t-title{font-family:var(--serif);font-weight:500;font-size:1.35rem}
+.t-thumb{width:64px;height:64px}
+.t-thumb img{width:100%;height:100%;object-fit:cover}
+.t-title{font-family:var(--serif);font-weight:500;font-size:1.3rem}
 .t-note{font-size:.64rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
 
 /* contact */
-.contact{background:var(--cream);border-top:1px solid var(--line);text-align:left}
+.contact{background:var(--cream);border-top:1px solid var(--line)}
 .contact-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:60px;align-items:center}
 .contact h2{font-family:var(--serif);font-weight:500;font-size:clamp(2.4rem,5.4vw,4.6rem);line-height:1.05}
 .contact h2 em{color:var(--gold)}
@@ -207,6 +215,30 @@ footer{padding:40px 0 46px}
 .to-top{width:52px;height:52px;border:1px solid var(--ink);background:none;font-family:var(--serif);font-size:1.2rem;transition:background .3s,color .3s,transform .3s}
 .to-top:hover{background:var(--gold);border-color:var(--gold);color:var(--ivory);transform:translateY(-4px)}
 
+/* ---------- photo manager ---------- */
+.pm{position:fixed;left:20px;bottom:20px;z-index:110}
+.pm-btn{border:1px solid var(--ink);background:var(--ivory);padding:14px 22px;font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;font-weight:700;box-shadow:0 12px 32px rgba(43,33,21,.16);transition:background .3s,color .3s}
+.pm-btn:hover{background:var(--ink);color:var(--ivory)}
+.pm-panel{position:absolute;bottom:calc(100% + 12px);left:0;background:var(--ivory);border:1px solid var(--ink);width:250px;padding:14px;display:none;flex-direction:column;gap:8px;box-shadow:0 18px 44px rgba(43,33,21,.2)}
+.pm-panel.open{display:flex}
+.pm-panel button{border:1px solid var(--line);background:none;padding:12px 14px;font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;text-align:left;transition:background .25s,color .25s}
+.pm-panel button:hover{background:var(--cream)}
+.pm-panel button.active{background:var(--gold);border-color:var(--gold);color:var(--ivory)}
+.pm-note{font-size:.66rem;color:var(--ink-soft);line-height:1.6;padding:2px 4px}
+
+/* guide modal */
+.guide{position:fixed;inset:0;background:rgba(30,23,13,.62);display:none;z-index:130;align-items:center;justify-content:center;padding:5vw}
+.guide.open{display:flex}
+.guide-card{background:var(--ivory);max-width:660px;width:100%;padding:46px;border:1px solid var(--gold);max-height:88vh;overflow:auto;position:relative}
+.guide-card h3{font-family:var(--serif);font-weight:500;font-size:2rem;margin-bottom:6px}
+.guide-card .g-sub{color:var(--ink-soft);font-size:.9rem;margin-bottom:24px}
+.guide-card pre{font-family:var(--sans);font-size:.76rem;background:var(--cream);border:1px solid var(--line);padding:22px;overflow-x:auto;line-height:2;margin-bottom:24px}
+.guide-card ol{margin:0 0 26px 18px;color:var(--ink-soft);font-size:.86rem}
+.guide-card ol li{margin-bottom:8px}
+.guide-card ol b{color:var(--ink)}
+.guide-close{position:absolute;top:16px;right:16px;width:42px;height:42px;border:1px solid var(--ink);background:none;font-family:var(--serif);font-size:1.2rem;transition:background .3s,color .3s}
+.guide-close:hover{background:var(--ink);color:var(--ivory)}
+
 /* reveal */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.6,.2,1);transition-delay:var(--d,0s)}
 .reveal.in{opacity:1;transform:none}
@@ -219,7 +251,7 @@ footer{padding:40px 0 46px}
   .about-sticky{position:static}
   .stats-grid{grid-template-columns:1fr 1fr;gap:44px 26px}
   .contact-grid{grid-template-columns:1fr;gap:44px}
-  .w7,.w5{grid-column:span 6}.w4{grid-column:span 6}
+  .w7,.w5,.w4{grid-column:span 6}
 }
 @media(max-width:768px){
   .nav-links,.head-cta{display:none}
@@ -227,7 +259,9 @@ footer{padding:40px 0 46px}
   .c-row{grid-template-columns:40px 1fr;gap:8px 16px}
   .c-desc{grid-column:2}
   .c-tag{grid-column:2;justify-self:start}
-  .t-row{grid-template-columns:1fr;gap:6px}
+  .t-row{grid-template-columns:90px 52px 1fr;gap:14px}
+  .t-thumb{width:52px;height:52px}
+  .t-note{grid-column:3}
   .sec-note{margin-left:0;width:100%}
 }
 @media(max-width:560px){
@@ -235,6 +269,9 @@ footer{padding:40px 0 46px}
   .stats-grid{grid-template-columns:1fr}
   .facts{grid-template-columns:1fr}
   .hero-tag{left:0}
+  .t-row{grid-template-columns:52px 1fr}
+  .t-thumb{width:48px;height:48px}
+  .t-note{grid-column:2}
 }
 </style>
 </head>
@@ -246,11 +283,7 @@ footer{padding:40px 0 46px}
   <div class="head-in">
     <a class="wordmark" href="#top">Cloudy <em>Tone</em> <span class="star">✦</span></a>
     <nav class="nav-links">
-      <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#work">Work</a>
-      <a href="#collabs">Collaborations</a>
-      <a href="#recent">Recent</a>
+      <a href="#about">About</a><a href="#services">Services</a><a href="#work">Work</a><a href="#collabs">Collaborations</a><a href="#recent">Recent</a>
     </nav>
     <a class="head-cta" href="#contact">Book a Collab</a>
     <button class="burger" id="ctBurger" aria-label="Menu"><span></span><span></span></button>
@@ -282,20 +315,17 @@ footer{padding:40px 0 46px}
         <a class="btn" href="https://www.instagram.com/cloudy2208/" target="_blank" rel="noopener">Follow on Instagram</a>
       </div>
     </div>
-    <figure class="hero-fig reveal" style="--d:.15s" id="ctHeroFig">
-      <img src="https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/170506cf4-2d0d-4e97-a6f1-14e0af52c26b.png" alt="Cloudy Tone — signature editorial portrait in cream silk">
+    <figure class="hero-fig photo-slot reveal" style="--d:.15s" id="ctHeroFig">
+      <img data-slot="hero/hero-portrait" src="" alt="Cloudy Tone — signature editorial portrait">
       <figcaption class="hero-tag"><b>✦</b> @cloudy2208 — Mirzapur</figcaption>
     </figure>
     <span class="vert">Portfolio — Mirzapur · Uttar Pradesh — Est. 2021</span>
     <span class="scroll-hint"><i></i> Scroll</span>
   </section>
 
-  <!-- MARQUEE -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track" id="ctMarquee">
-      <span>Reels <b>✦</b></span><span>Photos <b>✦</b></span><span>Lifestyle <b>✦</b></span><span>Business Promos <b>✦</b></span><span>Runway <b>✦</b></span><span>Event Anchoring <b>✦</b></span><span>Ethnic Fashion <b>✦</b></span><span>Mirzapur <b>✦</b></span>
-    </div>
-  </div>
+  <div class="marquee" aria-hidden="true"><div class="marquee-track" id="ctMarquee">
+    <span>Reels <b>✦</b></span><span>Photos <b>✦</b></span><span>Lifestyle <b>✦</b></span><span>Business Promos <b>✦</b></span><span>Runway <b>✦</b></span><span>Event Anchoring <b>✦</b></span><span>Ethnic Fashion <b>✦</b></span><span>Mirzapur <b>✦</b></span>
+  </div></div>
 
   <!-- ABOUT -->
   <section class="section" id="about">
@@ -305,6 +335,9 @@ footer{padding:40px 0 46px}
         <div class="about-sticky reveal">
           <p class="pull-quote">"I'm an original and that's perfection in itself — <b>you can't dull my sparkle.</b> ✨"</p>
           <p class="sig">— Cloudy Tone, July 2022</p>
+          <figure class="about-fig photo-slot">
+            <img data-slot="about/about-portrait" src="" alt="Cloudy Tone — natural no-filter portrait">
+          </figure>
         </div>
         <div class="about-body">
           <p class="reveal">Cloudy Tone is a Mirzapur-based content creator, runway model and event anchor who has been <strong>creating memories since 2021</strong> — blending high-fashion polish with the warmth of a hometown storyteller.</p>
@@ -327,24 +360,19 @@ footer{padding:40px 0 46px}
       <div class="sec-head reveal"><span class="sec-no">02</span><h2 class="sec-title">What I Do</h2><span class="sec-note">Tap a row to explore</span></div>
       <div class="s-row reveal"><span class="s-no">i.</span><span class="s-title">Business Promo Reels</span><span class="s-arrow">→</span>
         <p class="s-desc">Cinematic, story-first reels for shops, boutiques, salons and cafés — made to turn local footfall into loyal followers.</p>
-        <div class="s-tags"><i>Reels</i><i>Store Visits</i><i>Launch Drops</i></div>
-      </div>
+        <div class="s-tags"><i>Reels</i><i>Store Visits</i><i>Launch Drops</i></div></div>
       <div class="s-row reveal" style="--d:.05s"><span class="s-no">ii.</span><span class="s-title">Fashion & Ethnic Campaigns</span><span class="s-arrow">→</span>
         <p class="s-desc">Lookbooks and festive collection campaigns — bridal lehengas, sarees and suits styled with real editorial taste.</p>
-        <div class="s-tags"><i>Lookbooks</i><i>Festive Drops</i><i>Bridal</i></div>
-      </div>
+        <div class="s-tags"><i>Lookbooks</i><i>Festive Drops</i><i>Bridal</i></div></div>
       <div class="s-row reveal" style="--d:.1s"><span class="s-no">iii.</span><span class="s-title">Event Anchoring</span><span class="s-arrow">→</span>
         <p class="s-desc">Hosting launches, festive evenings and stage events with warmth and poise — honoured on stage by chief guests.</p>
-        <div class="s-tags"><i>Hosting</i><i>Promotions</i><i>Stage</i></div>
-      </div>
+        <div class="s-tags"><i>Hosting</i><i>Promotions</i><i>Stage</i></div></div>
       <div class="s-row reveal" style="--d:.15s"><span class="s-no">iv.</span><span class="s-title">Runway & Editorial Shoots</span><span class="s-arrow">→</span>
         <p class="s-desc">Couture walks and print-grade editorial shoots — from Lucknow couture week to local designer campaigns.</p>
-        <div class="s-tags"><i>Runway</i><i>Print</i><i>Couture</i></div>
-      </div>
+        <div class="s-tags"><i>Runway</i><i>Print</i><i>Couture</i></div></div>
       <div class="s-row reveal" style="--d:.2s"><span class="s-no">v.</span><span class="s-title">Lifestyle Storytelling</span><span class="s-arrow">→</span>
         <p class="s-desc">Everyday elegance in a Hinglish voice — raw portraits, festive diaries and moments that feel like memories, not ads.</p>
-        <div class="s-tags"><i>Lifestyle</i><i>Beauty</i><i>Festive</i></div>
-      </div>
+        <div class="s-tags"><i>Lifestyle</i><i>Beauty</i><i>Festive</i></div></div>
     </div>
   </section>
 
@@ -353,34 +381,27 @@ footer{padding:40px 0 46px}
     <div class="wrap">
       <div class="sec-head reveal"><span class="sec-no">03</span><h2 class="sec-title">Selected Work</h2><span class="sec-note">Click any frame to view</span></div>
       <div class="work-grid">
-        <button class="work-item w7 reveal" data-cap="Vivah Collection — Festive Bridal Drop · Ethnic Campaign, Mirzapur">
-          <span class="work-frame ar1610"><img src="https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/108afd7f2-af12-414a-bc52-b69a2aa5a319.png" alt="Bridal lehenga campaign for Vivah Collection"><span class="work-idx">No. 01</span></span>
-          <span class="w-cap"><h3>Vivah Collection — Bridal Drop</h3><span>Ethnic Campaign</span></span>
-        </button>
-        <button class="work-item w5 reveal" style="--d:.08s" data-cap="Lucknow India International Couture Week · Runway for Designer Yash Singh">
-          <span class="work-frame ar45"><img src="https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/1b8f1a415-033f-4b9a-895f-f113c9e11653.png" alt="Runway walk at Lucknow India International Couture Week"><span class="work-idx">No. 02</span></span>
-          <span class="w-cap"><h3>Couture Week Runway</h3><span>Runway</span></span>
-        </button>
-        <button class="work-item w4 reveal" data-cap="Soft Glam Beauty Edit · MUA collaboration, Mirzapur">
-          <span class="work-frame ar34"><img src="https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/1af862f93-b338-4e1d-bcbf-9efb31606b6e.png" alt="Soft glam beauty editorial close-up"><span class="work-idx">No. 03</span></span>
-          <span class="w-cap"><h3>Soft Glam Beauty Edit</h3><span>Beauty</span></span>
-        </button>
-        <button class="work-item w4 reveal" style="--d:.08s" data-cap="Her Majesty's Studio — Luxury Hair Spa Ritual · Salon promo reel">
-          <span class="work-frame ar34"><img src="https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/14cd24380-cee3-4273-b95b-e637d5e1bb07.png" alt="Luxury hair spa promo for Her Majesty's Studio"><span class="work-idx">No. 04</span></span>
-          <span class="w-cap"><h3>Her Majesty's Studio</h3><span>Salon Promo</span></span>
-        </button>
-        <button class="work-item w4 reveal" style="--d:.16s" data-cap="Pastel Saree Diaries · Lifestyle editorial, natural light">
-          <span class="work-frame ar34"><img src="https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/17a8638f2-9929-4ebe-8d8a-6123d95dd334.png" alt="Pastel saree lifestyle editorial portrait"><span class="work-idx">No. 05</span></span>
-          <span class="w-cap"><h3>Pastel Saree Diaries</h3><span>Lifestyle</span></span>
-        </button>
+        <button class="work-item w7 reveal" data-cap="Vivah Collection — Bridal Drop · Ethnic campaign, Sunderghat Mirzapur">
+          <span class="work-frame ar1610 photo-slot"><img data-slot="work/work-01-vivah-bridal" src="" alt="Vivah Collection bridal ethnic campaign"><span class="work-idx">No. 01</span></span>
+          <span class="w-cap"><h3>Vivah Collection — Bridal Drop</h3><span>Ethnic Campaign</span></span></button>
+        <button class="work-item w5 reveal" style="--d:.08s" data-cap="Lucknow India International Couture Week · Runway model">
+          <span class="work-frame ar45 photo-slot"><img data-slot="work/work-02-couture-runway" src="" alt="Couture week runway walk"><span class="work-idx">No. 02</span></span>
+          <span class="w-cap"><h3>Couture Week Runway</h3><span>Runway</span></span></button>
+        <button class="work-item w4 reveal" data-cap="Soft Glam Beauty Edit · MUA collaboration shoot">
+          <span class="work-frame ar34 photo-slot"><img data-slot="work/work-03-beauty-edit" src="" alt="Soft glam beauty editorial"><span class="work-idx">No. 03</span></span>
+          <span class="w-cap"><h3>Soft Glam Beauty Edit</h3><span>MUA Collab</span></span></button>
+        <button class="work-item w4 reveal" style="--d:.08s" data-cap="Glam & Salon Promos · Her Majesty's Studio campaign">
+          <span class="work-frame ar34 photo-slot"><img data-slot="work/work-04-hair-spa" src="" alt="Full glam salon campaign portrait"><span class="work-idx">No. 04</span></span>
+          <span class="w-cap"><h3>Glam & Salon Promos</h3><span>Her Majesty's Studio</span></span></button>
+        <button class="work-item w4 reveal" style="--d:.16s" data-cap="Traditional Ethnic Diaries · festive ethnic edit">
+          <span class="work-frame ar34 photo-slot"><img data-slot="work/work-05-saree-diaries" src="" alt="Traditional ethnic festive look"><span class="work-idx">No. 05</span></span>
+          <span class="w-cap"><h3>Traditional Ethnic Diaries</h3><span>Festive</span></span></button>
         <button class="work-item w5 reveal" data-cap="On the Mic — Event anchoring & promotion, honoured by chief guest">
-          <span class="work-frame ar45"><img src="https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/104f278c7-c80d-41e2-8277-dab30d6ffc47.png" alt="Cloudy Tone anchoring an event with a microphone"><span class="work-idx">No. 06</span></span>
-          <span class="w-cap"><h3>On the Mic — Anchoring</h3><span>Events</span></span>
-        </button>
-        <button class="work-item w7 reveal" style="--d:.08s" data-cap="Dandiya Nights — Festive campaign · #FestiveFashion, Mirzapur">
-          <span class="work-frame ar1610"><img src="https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/1077b8cfd-a58c-4806-bc77-0a149da70655.png" alt="Festive dandiya night campaign shoot"><span class="work-idx">No. 07</span></span>
-          <span class="w-cap"><h3>Dandiya Nights</h3><span>Festive</span></span>
-        </button>
+          <span class="work-frame ar45 photo-slot"><img data-slot="work/work-06-anchoring" src="" alt="Cloudy Tone anchoring an event"><span class="work-idx">No. 06</span></span>
+          <span class="w-cap"><h3>On the Mic — Anchoring</h3><span>Events</span></span></button>
+        <button class="work-item w7 reveal" style="--d:.08s" data-cap="Festive Nights — Diwali 2K25 edit · festive campaign">
+          <span class="work-frame ar1610 photo-slot"><img data-slot="work/work-07-dandiya" src="" alt="Diwali festive night campaign look"><span class="work-idx">No. 07</span></span>
+          <span class="w-cap"><h3>Festive Nights — Diwali Edit</h3><span>Festive</span></span></button>
       </div>
     </div>
   </section>
@@ -414,12 +435,12 @@ footer{padding:40px 0 46px}
   <section class="section" id="recent">
     <div class="wrap">
       <div class="sec-head reveal"><span class="sec-no">05</span><h2 class="sec-title">Recent Moments</h2><span class="sec-note">Fresh from the feed</span></div>
-      <div class="t-row reveal"><span class="t-date">Jun '26</span><span class="t-title">"Yeahh yeahh.!!" — trending reel drop, #cloudyworld ☁️</span><span class="t-note">Reel</span></div>
-      <div class="t-row reveal" style="--d:.05s"><span class="t-date">Apr '26</span><span class="t-title">"Haaye chaak chaak.." — photo series, viral edit</span><span class="t-note">Photos</span></div>
-      <div class="t-row reveal" style="--d:.1s"><span class="t-date">Oct '25</span><span class="t-title">Diwali 2K25 — "Bright, joyful and full of love"</span><span class="t-note">Festive</span></div>
-      <div class="t-row reveal" style="--d:.15s"><span class="t-date">Sep '25</span><span class="t-title">Dandiya Queen look — festive campaign with Glam by Shivi</span><span class="t-note">Campaign</span></div>
-      <div class="t-row reveal" style="--d:.2s"><span class="t-date">Oct '24</span><span class="t-title">Honoured by chief guest — promotion & anchoring milestone</span><span class="t-note">Event</span></div>
-      <div class="t-row reveal" style="--d:.25s"><span class="t-date">Jul '24</span><span class="t-title">"Dance the night away" — Vivah Collection festive drop</span><span class="t-note">Promo</span></div>
+      <div class="t-row reveal"><span class="t-date">Jan '26</span><span class="t-thumb photo-slot"><img data-slot="recent/recent-01" src="" alt="Of 365 new year post still"></span><span class="t-title">"Of 365 — Let's make it count" — new year drop</span><span class="t-note">New Year</span></div>
+      <div class="t-row reveal" style="--d:.05s"><span class="t-date">Jan '26</span><span class="t-thumb photo-slot"><img data-slot="recent/recent-02" src="" alt="Sunsets and dreams post still"></span><span class="t-title">"living between sunsets & dreams" — golden hour edit</span><span class="t-note">Lifestyle</span></div>
+      <div class="t-row reveal" style="--d:.1s"><span class="t-date">May '25</span><span class="t-thumb photo-slot"><img data-slot="recent/recent-03" src="" alt="Kesariyya Varanasi post still"></span><span class="t-title">"Kesariyya…" — Varanasi soft-glam edit</span><span class="t-note">Beauty</span></div>
+      <div class="t-row reveal" style="--d:.15s"><span class="t-date">Mar '25</span><span class="t-thumb photo-slot"><img data-slot="recent/recent-04" src="" alt="Dum dum mast couture week post still"></span><span class="t-title">"Dum dum mast haii..!!" — couture week moment</span><span class="t-note">Runway</span></div>
+      <div class="t-row reveal" style="--d:.2s"><span class="t-date">Jul '24</span><span class="t-thumb photo-slot"><img data-slot="recent/recent-05" src="" alt="Dance the night away Vivah post still"></span><span class="t-title">"Dance the night away" — Vivah Collection drop</span><span class="t-note">Promo</span></div>
+      <div class="t-row reveal" style="--d:.25s"><span class="t-date">Jan '24</span><span class="t-thumb photo-slot"><img data-slot="recent/recent-06" src="" alt="New beginning new year post still"></span><span class="t-title">"Embrace the Magic Of New Beginning"</span><span class="t-note">New Year</span></div>
     </div>
   </section>
 
@@ -464,16 +485,208 @@ footer{padding:40px 0 46px}
   <span class="lb-count" id="ctLbCount"></span>
 </div>
 
+<!-- PHOTO MANAGER -->
+<div class="pm">
+  <div class="pm-panel" id="ctPmPanel">
+    <button id="ctEditBtn">✏️ Edit Mode: Off</button>
+    <button id="ctGuideBtn">📁 Folder Guide</button>
+    <button id="ctResetBtn">↺ Reset All Photos</button>
+    <p class="pm-note">Drop real pics into the <b>images/</b> folders beside this file — or switch Edit Mode on and tap any photo to upload from your phone. Uploads stay saved in this browser.</p>
+  </div>
+  <button class="pm-btn" id="ctPmBtn">📷 Photos</button>
+</div>
+
+<!-- FOLDER GUIDE -->
+<div class="guide" id="ctGuide" role="dialog" aria-modal="true">
+  <div class="guide-card">
+    <button class="guide-close" id="ctGuideClose" aria-label="Close">×</button>
+    <h3>Photo Folder Guide</h3>
+    <p class="g-sub">Keep this file (index.html) and an <b>images</b> folder side by side. Drop her real photos with these exact names — they appear automatically.</p>
+<pre>images/
+├── hero/
+│   └── hero-portrait.jpg
+├── about/
+│   └── about-portrait.jpg
+├── work/
+│   ├── work-01-vivah-bridal.jpg
+│   ├── work-02-couture-runway.jpg
+│   ├── work-03-beauty-edit.jpg
+│   ├── work-04-hair-spa.jpg
+│   ├── work-05-saree-diaries.jpg
+│   ├── work-06-anchoring.jpg
+│   └── work-07-dandiya.jpg
+└── recent/
+    ├── recent-01.jpg  ├── recent-02.jpg
+    ├── recent-03.jpg  ├── recent-04.jpg
+    ├── recent-05.jpg  └── recent-06.jpg</pre>
+    <ol>
+      <li><b>Folder swap:</b> .png / .jpeg / .webp with the same names also work — the site auto-detects them.</li>
+      <li><b>Phone upload:</b> turn on Edit Mode (📷 Photos button) and tap any photo — it saves in the browser instantly.</li>
+      <li><b>Missing files:</b> until a real photo exists, an elegant placeholder shows with its file path as a reminder.</li>
+      <li><b>Reset All</b> clears browser uploads and returns to folder files / placeholders.</li>
+    </ol>
+    <button class="btn btn-gold" id="ctGuideOk">Got it ✦</button>
+  </div>
+</div>
+
 <script>
 (function(){
   'use strict';
+  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var finePointer=window.matchMedia('(pointer:fine)').matches;
+
+  /* ---------- placeholder fallbacks (per folder/slot) ---------- */
+  var FALLBACKS={
+    'hero/hero-portrait':'https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/170506cf4-2d0d-4e97-a6f1-14e0af52c26b.png',
+    'about/about-portrait':'https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/18a1c6837-4117-4b10-8e9e-8e798bf76011.png',
+    'work/work-01-vivah-bridal':'https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/108afd7f2-af12-414a-bc52-b69a2aa5a319.png',
+    'work/work-02-couture-runway':'https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/1b8f1a415-033f-4b9a-895f-f113c9e11653.png',
+    'work/work-03-beauty-edit':'https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/1af862f93-b338-4e1d-bcbf-9efb31606b6e.png',
+    'work/work-04-hair-spa':'https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/14cd24380-cee3-4273-b95b-e637d5e1bb07.png',
+    'work/work-05-saree-diaries':'https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/17a8638f2-9929-4ebe-8d8a-6123d95dd334.png',
+    'work/work-06-anchoring':'https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/104f278c7-c80d-41e2-8277-dab30d6ffc47.png',
+    'work/work-07-dandiya':'https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/1077b8cfd-a58c-4806-bc77-0a149da70655.png',
+    'recent/recent-01':'https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/170506cf4-2d0d-4e97-a6f1-14e0af52c26b.png',
+    'recent/recent-02':'https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/17a8638f2-9929-4ebe-8d8a-6123d95dd334.png',
+    'recent/recent-03':'https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/1af862f93-b338-4e1d-bcbf-9efb31606b6e.png',
+    'recent/recent-04':'https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/1b8f1a415-033f-4b9a-895f-f113c9e11653.png',
+    'recent/recent-05':'https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/108afd7f2-af12-414a-bc52-b69a2aa5a319.png',
+    'recent/recent-06':'https://image.qwenlm.ai/public_source/e3428f49-49f3-496e-8b61-b441b8788016/14cd24380-cee3-4273-b95b-e637d5e1bb07.png'
+  };
+  var EXT_TRY=['jpg','jpeg','png','webp'];
+
+  /* ---------- IndexedDB store ---------- */
+  var dbHandle=null;
+  function openDb(){return new Promise(function(res){
+    try{
+      if(!window.indexedDB){res(null);return;}
+      var rq=indexedDB.open('cloudyTonePortfolio',1);
+      rq.onupgradeneeded=function(e){var d=e.target.result;if(!d.objectStoreNames.contains('photos'))d.createObjectStore('photos');};
+      rq.onsuccess=function(){res(rq.result);};
+      rq.onerror=function(){res(null);};
+      rq.onblocked=function(){res(null);};
+    }catch(err){res(null);}
+  });}
+  function idbGet(key){return new Promise(function(res){
+    if(!dbHandle){res(null);return;}
+    try{var tx=dbHandle.transaction('photos','readonly');var rq=tx.objectStore('photos').get(key);
+      rq.onsuccess=function(){res(rq.result||null);};rq.onerror=function(){res(null);};
+    }catch(e){res(null);}
+  });}
+  function idbSet(key,blob){if(!dbHandle)return;try{var tx=dbHandle.transaction('photos','readwrite');tx.objectStore('photos').put(blob,key);}catch(e){}}
+  function idbDel(key){if(!dbHandle)return;try{var tx=dbHandle.transaction('photos','readwrite');tx.objectStore('photos').delete(key);}catch(e){}}
+
+  /* ---------- slot loading ---------- */
+  function setWrapState(img,state){
+    var w=img.closest('.photo-slot');if(!w)return;
+    w.classList.remove('using-fallback','is-custom','is-local');
+    if(state)w.classList.add(state);
+  }
+  function applyBlob(img,blob){
+    if(img._objUrl){try{URL.revokeObjectURL(img._objUrl);}catch(e){}}
+    img._objUrl=URL.createObjectURL(blob);
+    img.src=img._objUrl;
+    setWrapState(img,'is-custom');
+  }
+  function tryLocal(img,key,idx){
+    if(idx>=EXT_TRY.length){img.src=FALLBACKS[key]||'';setWrapState(img,'using-fallback');return;}
+    var path='images/'+key+'.'+EXT_TRY[idx];
+    var tester=new Image();
+    tester.onload=function(){img.src=path;setWrapState(img,'is-local');};
+    tester.onerror=function(){tryLocal(img,key,idx+1);};
+    tester.src=path;
+  }
+  function loadSlot(img){
+    var key=img.getAttribute('data-slot');
+    idbGet(key).then(function(blob){
+      if(blob){applyBlob(img,blob);}else{tryLocal(img,key,0);}
+    });
+  }
+
+  /* ---------- badges ---------- */
+  function buildBadges(){
+    document.querySelectorAll('.photo-slot').forEach(function(w){
+      var img=w.querySelector('img[data-slot]');if(!img)return;
+      if(!w.querySelector('.slot-badge')){
+        var b=document.createElement('span');b.className='slot-badge';
+        var key=img.getAttribute('data-slot');
+        b.setAttribute('data-default','✦ '+key+'.jpg');
+        b.textContent=b.getAttribute('data-default');
+        w.appendChild(b);
+      }
+    });
+  }
+  function refreshBadges(){
+    var editing=document.body.classList.contains('editing');
+    document.querySelectorAll('.slot-badge').forEach(function(b){
+      b.textContent=editing?'Click to upload ✦':b.getAttribute('data-default');
+    });
+  }
+
+  /* ---------- upload flow ---------- */
+  var fileInput=document.createElement('input');
+  fileInput.type='file';fileInput.accept='image/*';
+  fileInput.style.display='none';document.body.appendChild(fileInput);
+  var pendingImg=null;
+  fileInput.addEventListener('change',function(){
+    var f=fileInput.files&&fileInput.files[0];
+    if(f&&pendingImg){
+      idbSet(pendingImg.getAttribute('data-slot'),f);
+      applyBlob(pendingImg,f);
+    }
+    pendingImg=null;fileInput.value='';
+  });
+  document.addEventListener('click',function(e){
+    if(!document.body.classList.contains('editing'))return;
+    var slot=e.target.closest('.photo-slot');if(!slot)return;
+    var img=slot.querySelector('img[data-slot]');if(!img)return;
+    e.preventDefault();e.stopPropagation();
+    pendingImg=img;fileInput.click();
+  },true);
+
+  /* ---------- photo manager panel ---------- */
+  var pmBtn=document.getElementById('ctPmBtn');
+  var pmPanel=document.getElementById('ctPmPanel');
+  var editBtn=document.getElementById('ctEditBtn');
+  var guideBtn=document.getElementById('ctGuideBtn');
+  var resetBtn=document.getElementById('ctResetBtn');
+  var guide=document.getElementById('ctGuide');
+  pmBtn.addEventListener('click',function(e){e.stopPropagation();pmPanel.classList.toggle('open');});
+  document.addEventListener('click',function(e){
+    if(!e.target.closest('.pm'))pmPanel.classList.remove('open');
+  });
+  editBtn.addEventListener('click',function(){
+    var on=!document.body.classList.contains('editing');
+    document.body.classList.toggle('editing',on);
+    editBtn.classList.toggle('active',on);
+    editBtn.textContent=on?'✏️ Edit Mode: On':'✏️ Edit Mode: Off';
+    refreshBadges();
+  });
+  guideBtn.addEventListener('click',function(){guide.classList.add('open');});
+  document.getElementById('ctGuideClose').addEventListener('click',function(){guide.classList.remove('open');});
+  document.getElementById('ctGuideOk').addEventListener('click',function(){guide.classList.remove('open');});
+  guide.addEventListener('click',function(e){if(e.target===guide)guide.classList.remove('open');});
+  var resetArmed=false,resetTimer=null;
+  resetBtn.addEventListener('click',function(){
+    if(!resetArmed){
+      resetArmed=true;resetBtn.textContent='⚠ Click again to confirm';resetBtn.classList.add('active');
+      resetTimer=setTimeout(function(){resetArmed=false;resetBtn.textContent='↺ Reset All Photos';resetBtn.classList.remove('active');},3000);
+      return;
+    }
+    clearTimeout(resetTimer);resetArmed=false;
+    resetBtn.textContent='↺ Reset All Photos';resetBtn.classList.remove('active');
+    document.querySelectorAll('img[data-slot]').forEach(function(img){
+      idbDel(img.getAttribute('data-slot'));
+      if(img._objUrl){try{URL.revokeObjectURL(img._objUrl);}catch(e){}}
+      img._objUrl=null;
+      tryLocal(img,img.getAttribute('data-slot'),0);
+    });
+  });
+
+  /* ---------- header / progress / parallax ---------- */
   var headEl=document.getElementById('ctHead');
   var progEl=document.getElementById('ctProgress');
   var heroFig=document.getElementById('ctHeroFig');
-  var finePointer=window.matchMedia('(pointer:fine)').matches;
-  var reducedMotion=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-
-  /* header + progress + parallax */
   function onScroll(){
     var y=window.scrollY||0;
     headEl.classList.toggle('scrolled',y>10);
@@ -483,10 +696,9 @@ footer{padding:40px 0 46px}
       heroFig.style.transform='translateY('+(y*0.06)+'px)';
     }
   }
-  window.addEventListener('scroll',onScroll,{passive:true});
-  onScroll();
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
 
-  /* mobile nav */
+  /* ---------- mobile nav ---------- */
   var burger=document.getElementById('ctBurger');
   var mnav=document.getElementById('ctMobileNav');
   burger.addEventListener('click',function(){
@@ -495,56 +707,44 @@ footer{padding:40px 0 46px}
     document.body.style.overflow=open?'hidden':'';
   });
   mnav.querySelectorAll('a').forEach(function(a){
-    a.addEventListener('click',function(){
-      mnav.classList.remove('open');burger.classList.remove('open');document.body.style.overflow='';
-    });
+    a.addEventListener('click',function(){mnav.classList.remove('open');burger.classList.remove('open');document.body.style.overflow='';});
   });
 
-  /* marquee duplicate for seamless loop */
-  var mq=document.getElementById('ctMarquee');
-  mq.innerHTML+=mq.innerHTML;
+  /* ---------- marquee ---------- */
+  var mq=document.getElementById('ctMarquee');mq.innerHTML+=mq.innerHTML;
 
-  /* reveal on scroll */
+  /* ---------- reveal ---------- */
   var revealEls=document.querySelectorAll('.reveal');
   if('IntersectionObserver' in window&&!reducedMotion){
     var ro=new IntersectionObserver(function(entries){
-      entries.forEach(function(en){
-        if(en.isIntersecting){en.target.classList.add('in');ro.unobserve(en.target);}
-      });
+      entries.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');ro.unobserve(en.target);}});
     },{threshold:0.12});
     revealEls.forEach(function(el){ro.observe(el);});
-  }else{
-    revealEls.forEach(function(el){el.classList.add('in');});
-  }
+  }else{revealEls.forEach(function(el){el.classList.add('in');});}
 
-  /* counters */
+  /* ---------- counters ---------- */
   var counters=document.querySelectorAll('.ct-count');
   function runCounter(el){
     var target=parseFloat(el.getAttribute('data-count'));
     var dec=parseInt(el.getAttribute('data-dec')||'0',10);
-    var dur=1600;var t0=null;
+    var dur=1600,t0=null;
     function step(ts){
       if(!t0)t0=ts;
       var p=Math.min((ts-t0)/dur,1);
       var ease=1-Math.pow(1-p,3);
       el.textContent=(target*ease).toFixed(dec);
-      if(p<1)requestAnimationFrame(step);
-      else el.textContent=target.toFixed(dec);
+      if(p<1)requestAnimationFrame(step);else el.textContent=target.toFixed(dec);
     }
     requestAnimationFrame(step);
   }
   if('IntersectionObserver' in window&&!reducedMotion){
     var co=new IntersectionObserver(function(entries){
-      entries.forEach(function(en){
-        if(en.isIntersecting){runCounter(en.target);co.unobserve(en.target);}
-      });
+      entries.forEach(function(en){if(en.isIntersecting){runCounter(en.target);co.unobserve(en.target);}});
     },{threshold:0.5});
     counters.forEach(function(c){co.observe(c);});
-  }else{
-    counters.forEach(function(c){c.textContent=c.getAttribute('data-count');});
-  }
+  }else{counters.forEach(function(c){c.textContent=c.getAttribute('data-count');});}
 
-  /* services rows (touch toggle) */
+  /* ---------- services rows ---------- */
   document.querySelectorAll('.s-row').forEach(function(row){
     row.addEventListener('click',function(){
       var wasOpen=row.classList.contains('open');
@@ -553,7 +753,7 @@ footer{padding:40px 0 46px}
     });
   });
 
-  /* lightbox */
+  /* ---------- lightbox ---------- */
   var items=Array.prototype.slice.call(document.querySelectorAll('.work-item'));
   var lb=document.getElementById('ctLb');
   var lbImg=document.getElementById('ctLbImg');
@@ -563,28 +763,40 @@ footer{padding:40px 0 46px}
   function showLb(i){
     lbIndex=(i+items.length)%items.length;
     var img=items[lbIndex].querySelector('img');
-    lbImg.src=img.src;
-    lbImg.alt=img.alt;
+    lbImg.src=img.src;lbImg.alt=img.alt;
     lbCap.textContent=items[lbIndex].getAttribute('data-cap');
     lbCount.textContent=(lbIndex+1)+' / '+items.length;
   }
   function openLb(i){showLb(i);lb.classList.add('open');document.body.style.overflow='hidden';}
   function closeLb(){lb.classList.remove('open');document.body.style.overflow='';}
-  items.forEach(function(it,i){it.addEventListener('click',function(){openLb(i);});});
+  items.forEach(function(it,i){
+    it.addEventListener('click',function(){
+      if(document.body.classList.contains('editing'))return;
+      openLb(i);
+    });
+  });
   document.getElementById('ctLbClose').addEventListener('click',closeLb);
   document.getElementById('ctLbPrev').addEventListener('click',function(e){e.stopPropagation();showLb(lbIndex-1);});
   document.getElementById('ctLbNext').addEventListener('click',function(e){e.stopPropagation();showLb(lbIndex+1);});
   lb.addEventListener('click',function(e){if(e.target===lb)closeLb();});
   document.addEventListener('keydown',function(e){
-    if(!lb.classList.contains('open'))return;
-    if(e.key==='Escape')closeLb();
-    if(e.key==='ArrowLeft')showLb(lbIndex-1);
-    if(e.key==='ArrowRight')showLb(lbIndex+1);
+    if(lb.classList.contains('open')){
+      if(e.key==='Escape')closeLb();
+      if(e.key==='ArrowLeft')showLb(lbIndex-1);
+      if(e.key==='ArrowRight')showLb(lbIndex+1);
+    }else if(e.key==='Escape'&&guide.classList.contains('open')){guide.classList.remove('open');}
   });
 
-  /* back to top */
+  /* ---------- back to top ---------- */
   document.getElementById('ctToTop').addEventListener('click',function(){
     window.scrollTo({top:0,behavior:reducedMotion?'auto':'smooth'});
+  });
+
+  /* ---------- init ---------- */
+  buildBadges();
+  openDb().then(function(db){
+    dbHandle=db;
+    document.querySelectorAll('img[data-slot]').forEach(loadSlot);
   });
 })();
 </script>
