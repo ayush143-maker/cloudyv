@@ -52,3 +52,9 @@ These are review steps, not verified results or performance measurements:
 - [ ] Confirm the published files include the intended root page and required local assets; review publishing settings rather than assuming their effect.
 - [ ] After publishing, preview the page and check its appearance, links, resource requests, and browser errors.
 - [ ] Review changed files, relative references, and README claims before publishing.
+
+## Final release review
+
+- Open `index.html` from the published location and confirm the page loads as expected.
+- Test with network access available and keep a sensible fallback for externally loaded resources.
+- Review the published result once on a narrow screen and once on a wider screen; treat this as a release check, not an automated test report.
