@@ -1,6 +1,6 @@
 # cloudyv
 
-**Cloudy Tone** is a creator and model portfolio based in Mirzapur. The page introduces the creator, presents services and selected work, and provides collaboration and contact or booking sections.
+**Cloudy Tone** is a creator and model portfolio based in Mirzapur. Visitors can browse an introduction to the creator, services, selected work, and collaboration information, along with contact or booking sections.
 
 ## Preview locally
 
