@@ -23,6 +23,16 @@ Use these actions after editing the page; they are review steps, not verified re
 - [ ] Check which portfolio assets are actually referenced. Remove an asset only after confirming it is unused, and consider whether large media is necessary before adding it. This checklist does not represent measured loading performance.
 - [ ] Inspect the portfolio at narrow and wide viewport sizes. Check that sections, media, text, and contact links remain visible and usable.
 
+## Browser and platform reliability checklist
+
+Use these steps after page changes to review browser and platform behavior. They are review steps, not verified compatibility results.
+
+- [ ] Identify current browsers and platforms relevant to this HTML page, then open `index.html` in those browsers. Review the introduction, services, selected work, collaboration information, and contact or booking sections; do not claim compatibility based on this checklist alone.
+- [ ] Inspect the browser Console and Network panel for errors and failed requests. Check whether font requests fail or are blocked, and review any other requests actually present in `index.html`.
+- [ ] Check each local asset reference against the expected file path, particularly portfolio media. Confirm that remote URLs in the page are intentional and investigate failed requests; do not assume referenced fonts or other remote resources loaded successfully.
+- [ ] Compare the page at mobile and desktop viewport sizes. Check that sections, portfolio media, text, and contact or booking links remain visible and usable. A desktop browser resized to a narrow viewport is not by itself a mobile-device compatibility result.
+- [ ] Record only the browsers, devices or viewport sizes, and issues actually reviewed. Keep checklist items distinct from verified findings.
+
 ## Accessibility review checklist
 
 Use these as future review steps for the portfolio; they are not verified results or compliance claims:
