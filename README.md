@@ -12,4 +12,4 @@ Then visit http://localhost:8000.
 
 ## Updating the portfolio
 
-Keep the About, Services, Work, and Collaboration sections current, and verify contact and booking links before publishing.
+Keep the About, Services, Work, and Collaboration sections current in `index.html`, and verify contact and booking links before publishing.
