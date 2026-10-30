@@ -14,12 +14,14 @@ Then visit <http://localhost:8000>.
 
 ## Manual review checklist
 
-Use these actions after editing the page; they are not verified results.
+Use these actions after editing the page; they are review steps, not verified results or performance measurements.
 
-- Open the known entry page, `index.html`, and review the introduction, services, selected work, collaboration information, and contact or booking sections.
-- Try the contact and booking links. Check their destinations and confirm the displayed contact details before publishing.
-- Inspect image and media references in the page. Check each local path against the intended file, particularly when replacing portfolio media, and review any external resources in the browser.
-- Inspect the portfolio at narrow and wide viewport sizes. Check that sections, media, text, and contact links remain visible and usable.
+- [ ] Open `index.html` and review the introduction, services, selected work, collaboration information, and contact or booking sections.
+- [ ] Try the contact and booking links. Check their destinations and confirm the displayed contact details before publishing.
+- [ ] Inspect image, audio, video, font, stylesheet, and script references in `index.html`. Check each referenced local path against an existing file, especially when replacing portfolio media.
+- [ ] The page references Cormorant Garamond and Manrope through Fontsource URLs. Confirm the font styles and weights actually used by the page before retaining or changing those external font requests; check that any other external script or font dependency is intentional.
+- [ ] Check which portfolio assets are actually referenced. Remove an asset only after confirming it is unused, and consider whether large media is necessary before adding it. This checklist does not represent measured loading performance.
+- [ ] Inspect the portfolio at narrow and wide viewport sizes. Check that sections, media, text, and contact links remain visible and usable.
 
 ## Accessibility review checklist
 
@@ -33,4 +35,4 @@ Use these as future review steps for the portfolio; they are not verified result
 
 ## Personalizing the portfolio
 
-Edit the introduction, service descriptions, selected-work text, and contact details in `index.html`, keeping information consistent across sections. The page references Cormorant Garamond and Manrope through Fontsource URLs; preserve those URLs unless you are intentionally changing the typography. No separate asset files are listed at the root. Inspect the page's existing image references before replacing portfolio media, and keep each relative path pointed at the correct file. Recheck contact and booking links after changing them.
+Edit the introduction, service descriptions, selected-work text, and contact details in `index.html`, keeping information consistent across sections. The page references Cormorant Garamond and Manrope through Fontsource URLs; preserve those URLs unless intentionally changing the typography. No separate asset files are listed at the root. Inspect the page's actual image references before replacing portfolio media, keep each relative path pointed at the correct file, and recheck contact and booking links after changing them.
