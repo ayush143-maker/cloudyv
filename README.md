@@ -1,19 +1,15 @@
 # cloudyv
 
-A creator/model portfolio page for Cloudy Tone, with About, Services, Work, Collaborations, and contact/booking sections.
+**Cloudy Tone** is a creator and model portfolio based in Mirzapur. The page introduces the creator, presents services and selected work, and provides sections for collaborations and contact or booking enquiries.
 
-## Run locally
+## Preview locally
 
-Open index.html in a modern browser. If browser restrictions block local assets or APIs, serve the folder over HTTP.
+This is a static website. Open index.html in a modern browser, or start a local HTTP server:
 
-## Structure and assets
+    python -m http.server 8000
 
-`index.html` is the primary entry point. Keep linked images, audio, scripts, and styles in their existing relative locations; renaming files may break references.
+Then visit http://localhost:8000.
 
-## Preview and deployment
+## Updating the portfolio
 
-Open the page in a modern browser. If local-file behavior is restricted, start a simple HTTP server from this folder and open the local address in your browser. For static hosting, publish the correct root folder and check asset paths after deployment.
-
-## Making changes
-
-Test the page after edits and check both phone-sized and desktop-sized viewports. Confirm that buttons and other visible interactions work in the deployed version as well as locally.
+The main page is in index.html. Keep the About, Services, Work, and Collaboration sections consistent with the current portfolio, and use the existing image paths when updating the gallery. Before publishing, verify every contact or booking link so visitors can reach the intended destination.
