@@ -12,43 +12,31 @@ python -m http.server 8000
 
 Then visit <http://localhost:8000>.
 
-## Troubleshooting
+## Page resources
 
-These are diagnostic steps, not claims that a problem is present:
-
-1. Confirm that `index.html` is the intended page. If its content or styling is missing, inspect its local references and preserve relative paths when moving files.
-2. Use the browser developer tools to inspect the Console for errors and the Network panel for failed requests.
-3. Check that each referenced local image or other asset exists at the path used by `index.html`; particularly verify portfolio media when replacing it. The root-file list does not establish separate local asset files.
-4. The page references Cormorant Garamond and Manrope through Fontsource URLs. Check those network-dependent font requests separately from local files, and investigate blocked or failed requests without assuming the fonts loaded.
-5. If contact or booking links do not lead where expected, inspect the destinations in `index.html` and confirm the displayed contact details.
+The page references Cormorant Garamond and Manrope through Fontsource URLs. Check these network-dependent font requests separately from local files. Inspect `index.html` for actual image and other asset references; the root-file list does not establish that separate local assets exist.
 
 ## Configuration and data handling
 
-This is a static page: its HTML and client-side values are delivered to visitors and cannot be treated as secrets. Do not place passwords, private API keys, or other confidential values in `index.html`. No `.env.example` or separate configuration file is listed among the root files. If you add a configuration template, use placeholders and keep real credentials out of tracked files.
+This is a static page, so its HTML and client-side values are delivered to visitors. Do not put secrets in `index.html`. Before publishing, confirm contact details, booking destinations, and portfolio media are intended to be public. Do not add private or unapproved media to tracked files.
 
-Review the content and media before publishing: contact details, booking links, and portfolio imagery may be public. Confirm that displayed details and destinations are intended for publication, and do not add private or unapproved media to tracked files.
+## Troubleshooting
+
+- Confirm `index.html` is the intended page. If content or styling is missing, inspect its references and verify local paths.
+- Use the browser Console to check for errors and the Network panel to check failed requests.
+- When replacing portfolio media, confirm each referenced local file exists at the path used by the page.
+- If contact or booking links do not lead where expected, inspect their destinations in `index.html` and confirm the displayed details.
+
+## Contributor handoff
+
+Keep changes scoped to the relevant content, styles, links, or media references in `index.html`. Preserve filenames and relative references; update paths deliberately when replacing or moving assets. In the handoff, briefly describe what changed and which files were affected. Before publishing, manually review the page, contact details, links, and media.
 
 ## Manual review checklist
 
-Use these actions after editing the page; they are review steps, not verified results or performance measurements.
+These are review steps, not verified results or performance measurements:
 
-- [ ] Open `index.html` and review the introduction, services, selected work, collaboration information, and contact or booking sections.
-- [ ] Try the contact and booking links. Check their destinations and confirm displayed contact details before publishing.
-- [ ] Inspect image, audio, video, font, stylesheet, and script references in `index.html`. Check each referenced local path against an existing file, especially when replacing portfolio media.
-- [ ] Confirm the Fontsource font styles and weights used by the page before retaining or changing those external requests; check that any other external dependency is intentional.
-- [ ] Check which portfolio assets are actually referenced. Remove an asset only after confirming it is unused; consider whether large media is necessary.
-- [ ] Inspect the portfolio at narrow and wide viewport sizes. Check that sections, media, text, and contact links remain visible and usable.
-
-## Accessibility review checklist
-
-These are future review steps, not verified results or compliance claims:
-
-- Navigate the page using a keyboard. Check that contact and booking links and other interactive controls are reachable and operable, with visible focus.
-- Check that controls and links have meaningful names, and that section navigation, if present, communicates its purpose.
-- Review text contrast across the page, including text placed over portfolio media.
-- For portfolio images, check that informative work has useful text alternatives and decorative imagery is not announced as meaningful content.
-- If the page includes animated transitions or other motion, check that it responds to the user's reduced-motion preference.
-
-## Personalizing the portfolio
-
-Edit the introduction, service descriptions, selected-work text, and contact details in `index.html`, keeping information consistent across sections. The page references Cormorant Garamond and Manrope through Fontsource URLs; preserve those URLs unless intentionally changing the typography. Inspect actual image references before replacing portfolio media, keep relative paths pointed at the correct files, and recheck contact and booking links after changing them.
+- [ ] Review the introduction, services, selected work, collaboration information, and contact or booking sections in `index.html`.
+- [ ] Check contact and booking destinations and confirm displayed details are intended for publication.
+- [ ] Verify referenced local asset paths, especially when replacing portfolio media, and confirm the Fontsource requests are intentional.
+- [ ] Review the page at narrow and wide viewport sizes for visibility and usability.
+- [ ] Review changed files, relative references, and README claims before publishing.
