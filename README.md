@@ -12,6 +12,12 @@ python -m http.server 8000
 
 Then visit <http://localhost:8000>.
 
+## Configuration and data handling
+
+This is a static page: its HTML and any client-side values are delivered to visitors and cannot be treated as secrets. Do not place passwords, private API keys, or other confidential values in `index.html`. No `.env.example` or separate configuration file is listed among the root files. If you add a configuration template, use placeholders only and keep real credentials out of tracked files.
+
+Review the content and media in the page before publishing: contact details, booking links, and portfolio imagery may be public. Confirm that the displayed details and destinations are intended for publication, and do not add private or unapproved media to tracked files.
+
 ## Manual review checklist
 
 Use these actions after editing the page; they are review steps, not verified results or performance measurements.
